@@ -1,1 +1,1 @@
-# SzaboAndras_szallashelyfoglalo
+# Szálláshely lefoglaló oldal
