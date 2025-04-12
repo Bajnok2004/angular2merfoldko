@@ -1,0 +1,36 @@
+/* Alapértelmezett reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Magasság és flex elrendezés a teljes oldalra */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+}
+
+/* Tartalom, ami kitölti a köztes részt */
+main {
+  flex: 1;
+}
+
+/* Footer beállítás */
+footer {
+  display: flex;
+  align-items: center;       /* Függőlegesen középre */
+  justify-content: center;   /* Vízszintesen középre */
+  height: 80px;
+  background-color: #346b85;
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+}

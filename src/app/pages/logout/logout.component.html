@@ -1,0 +1,23 @@
+<div class="logout-container">
+  @if (isLoggedIn) {
+  <button mat-raised-button color="warn" (click)="logout()">Kijelentkezés</button>
+  } @else {
+  <mat-card class="logout-card">
+    <mat-card-header>
+      <mat-card-title>Sikeres kijelentkezés</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p>Reméljük, hamarosan újra látunk!</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <a mat-raised-button color="primary" routerLink="/">Vissza a főoldalra</a>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>
+
+<footer>
+  <p>&copy; 2025 BajnokSzállás. Minden jog fenntartva.</p>
+</footer>

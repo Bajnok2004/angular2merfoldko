@@ -1,0 +1,55 @@
+<body>
+
+<div class="container">
+  <!-- Szálláshely kiválasztása -->
+  <select #chosenAccommodation (change)="reload(chosenAccommodation.selectedIndex)">
+    @for (accommodation of accommodationObject; track $index) {
+      <option value="{{$index}}">{{ accommodation.name }}</option>
+    }
+  </select>
+
+  <h2>Szállás részletei</h2>
+
+  <div class="accommodation-header">
+    <div class="avatar">
+      <img [src]="accommodationObject[selectedIndex].image" alt="Accommodation Image" width="150" />
+    </div>
+    <div class="accommodation-info">
+      <div class="accommodation-name">
+        {{ accommodationObject[selectedIndex].name }}
+      </div>
+      <div class="accommodation-location">
+        📍 {{ accommodationObject[selectedIndex].location }}
+      </div>
+      <div class="accommodation-price">
+        💰 {{ accommodationObject[selectedIndex].price | hufCurrency}}
+      </div>
+      <div class="accommodation-availability">
+        <span *ngIf="accommodationObject[selectedIndex].isAvailable; else notAvailable">
+          ✅ Available
+        </span>
+        <ng-template #notAvailable>❌ Not Available</ng-template>
+      </div>
+    </div>
+  </div>
+
+  <h2>Szolgáltatások</h2>
+
+  <table class="facilities-table">
+    <tr>
+      <th>Szolgáltatás</th>
+      <th>Elérhető-e</th>
+    </tr>
+    @for (facility of accommodationObject[selectedIndex].facilities; track $index) {
+      <tr>
+        <td>{{ facility.name }}</td>
+        <td>{{ facility.isAvailable ? 'Yes' : 'No' }}</td>
+      </tr>
+    }
+  </table>
+
+</div>
+</body>
+<footer>
+  <p>&copy; 2025 BajnokSzállás. Minden jog fenntartva.</p>
+</footer>

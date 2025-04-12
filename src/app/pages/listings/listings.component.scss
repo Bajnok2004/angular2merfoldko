@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+  color: #333;
+}
+
+/* Container styling */
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Select dropdown */
+select {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Section titles */
+h2 {
+  font-size: 1.8rem;
+  margin: 1.5rem 0 1rem;
+  color: #3f87a6;
+  text-align: center;
+}
+
+/* Profile/accommodation header */
+.accommodation-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.avatar img {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Info block */
+.accommodation-info {
+  flex: 1;
+}
+
+.accommodation-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.accommodation-location,
+.accommodation-price,
+.accommodation-availability {
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+
+/* Facilities table */
+.facilities-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.facilities-table th,
+.facilities-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.facilities-table th {
+  background-color: #3f87a6;
+  color: white;
+}
+
+.facilities-table td {
+  color: #555;
+}
+
+/* ========== Mobilbarát @media query ========== */
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .accommodation-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .accommodation-info {
+    width: 100%;
+  }
+
+  .accommodation-name {
+    font-size: 1.3rem;
+  }
+
+  .accommodation-location,
+  .accommodation-price,
+  .accommodation-availability {
+    font-size: 0.9rem;
+  }
+
+  .facilities-table th,
+  .facilities-table td {
+    font-size: 0.9rem;
+  }
+
+  .facilities-table {
+    margin-top: 1rem;
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kezdőlap - BajnokSzállás</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>BajnokSzállás</h1>
+    <p>Találd meg a tökéletes szállást belföldön és külföldön!</p>
+    <br><br><br>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Város</mat-label>
+        <input type="text"
+  
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (option of options; track option) {
+            <mat-option [value]="option">{{option}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <button mat-flat-button>Keresés</button>
+  </header>
+
+  <main>
+    <section class="featured-listings">
+      <h2>Ajánlott szállások</h2>
+      <div class="cards">
+        <div class="card">
+          <img src="https://www.balaton-apartman.hu/files/accommodations/medium/102422770_594620637840053_7479628039524138219_o.jpg" alt="Szállás 1" />
+          <h3>Balatoni Apartman</h3>
+          <p>Balatonfüred • 2 fő • 18 000 Ft/éj</p>
+        </div>
+        <div class="card">
+          <img src="https://www.myboutiquehotel.com/photos/117686/stories-boutique-hotel-budapest-001-62793-728x400.jpg" alt="Szállás 2" />
+          <h3>Budapesti Boutique Hotel</h3>
+          <p>Budapest • 2 fő • 25 000 Ft/éj</p>
+        </div>
+        <div class="card">
+          <img src="https://osztalykirandulas.hu/wp-content/uploads/2023/12/3113464.jpg" alt="Szállás 3" />
+          <h3>Soproni Panzió</h3>
+          <p>Sopron • 2 fő • 14 000 Ft/éj</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+ 
+</body>
+</html>
+<footer>
+  <p>&copy; 2025 BajnokSzállás. Minden jog fenntartva.</p>
+</footer>

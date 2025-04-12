@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Foglalás - BajnokSzállás</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  
+
+  <main>
+    <section class="booking-details">
+      <div class="accommodation-info">
+        <img src="https://www.balaton-apartman.hu/files/accommodations/medium/102422770_594620637840053_7479628039524138219_o.jpg" alt="Balatoni Apartman" />
+        
+        <mat-accordion>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Balatoni Apartman</mat-panel-title>
+              <mat-panel-description>Kattints a további részletekért a szállásról.</mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>Balatonfüred • 2 fő • 18 000 Ft/éj</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+      <div class="booking-form">
+        <h3>Foglalási űrlap</h3>
+        <form>
+          <label for="name">Név</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="checkin">Érkezés dátuma</label>
+          <input type="date" id="checkin" name="checkin" required />
+
+          <label for="checkout">Távozás dátuma</label>
+          <input type="date" id="checkout" name="checkout" required />
+
+          <label for="guests">Vendégek száma</label>
+          <input type="number" id="guests" name="guests" min="1" max="10" value="2" required />
+
+          <button type="submit">Foglalás elküldése</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  
+  
+</body>
+
+</html>
+<footer>
+  <p>&copy; 2025 BajnokSzállás. Minden jog fenntartva.</p>
+</footer>

@@ -1,0 +1,69 @@
+<body>
+
+
+<div class="profile" [ngClass]="selectedTheme">
+  <h2>{{filterText}}'s Profile</h2><br><br><br><br>
+
+  <div >
+    <p>Új felhasználónév: <input type="text" [(ngModel)]="filterText" placeholder="Add meg az új nevet" /></p>
+
+    <br><p>Válassz háttértémát:</p>
+
+    <!-- Háttértéma kiválasztása gombokkal -->
+    <button (click)="selectedTheme = 'light'" [ngClass]="{'active': selectedTheme === 'light'}">Világos</button>
+    <button (click)="selectedTheme = 'orange'" [ngClass]="{'active': selectedTheme === 'orange'}">Narancs</button>
+    <button (click)="selectedTheme = 'blue'" [ngClass]="{'active': selectedTheme === 'blue'}">Kék</button>
+
+    <p [ngStyle]="{'font-size.px': fontSize}">Betű méret({{fontSize}}px):</p>
+    <br><input type="range" [(ngModel)]="fontSize" min="10" max="20" step="0.5">
+  </div>
+
+  <br><br><br><br><h3>Booked Hotels:</h3><br>
+
+  <!-- Kedvenc szállások megjelenítése @if és @for direktívákkal -->
+  @if (user.booked && user.booked.length > 0) {
+    <ul>
+      @for (accommodation of user.booked; track accommodation.name) {
+        <li>
+          <br><br><br>
+          <img [src]="accommodation.image" alt="{{ accommodation.name }}" width="100" height="100">
+          <p [ngStyle]="{'font-size.px': fontSize}"><strong>Name:</strong> {{ accommodation.name }}</p>
+          <p [ngStyle]="{'font-size.px': fontSize}"><strong>Location:</strong> {{ accommodation.location }}</p>
+          <p [ngStyle]="{'font-size.px': fontSize}"><strong>Price:</strong> {{ accommodation.price | hufCurrency }}</p>
+
+          <p [ngStyle]="{'font-size.px': fontSize}">
+            <strong>Availability:</strong>
+            @if (accommodation.isAvailable) {
+              ✅ Available
+            } @else {
+              ❌ Not Available
+            }
+          </p>
+
+          <h4>Facilities:</h4>
+          <table mat-table [dataSource]="accommodation.facilities" class="mat-elevation-z8">
+            <ng-container matColumnDef="name">
+              <th [ngStyle]="{'font-size.px': fontSize}" mat-header-cell *matHeaderCellDef> Facility </th>
+              <td [ngStyle]="{'font-size.px': fontSize}" mat-cell *matCellDef="let facility"> {{ facility.name }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th [ngStyle]="{'font-size.px': fontSize}" mat-header-cell *matHeaderCellDef> Status </th>
+              <td [ngStyle]="{'font-size.px': fontSize}" mat-cell *matCellDef="let facility"> {{ facility.isAvailable ? 'Available' : 'Not Available' }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p>Nincsenek foglalt szállásaid még. 😢</p>
+  }
+
+</div>
+
+<footer>
+  <p>&copy; 2025 BajnokSzállás. Minden jog fenntartva.</p>
+</footer>
