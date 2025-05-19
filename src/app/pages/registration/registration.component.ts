@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { User } from '../../shared/models/user.model';
-
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -39,7 +39,11 @@ export class RegistrationComponent {
   showForm = true;
   signupError = '';
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(
+   private router: Router,
+   private authService: AuthService,
+   private cdRef: ChangeDetectorRef
+   ) {}
 
   ngAfterViewInit(): void {
     this.cdRef.detectChanges(); // kényszerített újrarenderelés
@@ -61,20 +65,40 @@ export class RegistrationComponent {
     this.isLoading = true;
     this.showForm = false;
 
-    const newUser: User = {
+    const userData: Partial<User> = {
 
       name: this.signUpForm.value.name || '',
       email: this.signUpForm.value.email || '',
-      password: this.signUpForm.value.password || '',
       booked: [],
-
     };
 
-    console.log('New user:', newUser);
-    console.log('Form value:', this.signUpForm.value);
+    const email = this.signUpForm.value.email || '';
+    const pw = this.signUpForm.value.password || '';
 
-    setTimeout(() => {
-      window.location.href = '/home';
-    }, 2000);
+     this.authService.signUp(email, pw, userData)
+          .then(userCredential => {
+            console.log('Registration succesful:', userCredential.user);
+            this.authService.updateLoginStatus(true);
+            this.router.navigateByUrl('/home');
+          })
+          .catch(error => {
+            console.error('Regisztrációs hiba:', error);
+            this.isLoading = false;
+            this.showForm = true;
+
+            switch(error.code) {
+              case 'auth/email-already-in-use':
+                this.signupError = 'This email already in use.';
+                break;
+              case 'auth/invalid-email':
+                this.signupError = 'Invalid email.';
+                break;
+              case 'auth/weak-password':
+                this.signupError = 'The password is too weak. Use at least 6 characters.';
+                break;
+              default:
+                this.signupError = 'An error has occurred during registration. Please try again later.';
+            }
+          });
   }
 }

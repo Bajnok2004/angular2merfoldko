@@ -2,14 +2,15 @@ import { Component } from '@angular/core';
 import { Accommodation } from '../../shared/models/accommodation.model';
 import { Facility } from '../../shared/models/facility.model';
 import { HufCurrencyPipe } from '../../shared/pipes/huf-currency.pipe';
+import { AvailabilityPipe } from '../../shared/pipes/availablity.pipe';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listings',
-  imports: [HufCurrencyPipe, CommonModule],
+  imports: [HufCurrencyPipe, CommonModule, AvailabilityPipe],
   standalone: true,
   templateUrl: './listings.component.html',
-  styleUrl: './listings.component.scss'
+  styleUrls: ['./listings.component.scss']
 })
 export class ListingsComponent {
   selectedIndex: number = 0;
@@ -47,7 +48,7 @@ export class ListingsComponent {
       price: 18000,
       isAvailable: true,
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT25xSflFmoEblNQLxvxIdtvfoYfg0d8Ydq0w&s',
-      
+
       facilities: [
         { name: 'Free Wi-Fi', isAvailable: true },
         { name: 'Swimming Pool', isAvailable: false },

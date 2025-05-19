@@ -6,5 +6,5 @@ export interface Accommodation {
   price: number;
   isAvailable: boolean;
   image: string;
-  facilities: Facility[];
+  facilities: { name: string; isAvailable: boolean }[];
 }

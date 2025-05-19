@@ -1,8 +1,8 @@
-import { Accommodation } from './accommodation.model';
 
 export interface User {
+  id: string;
   name: string;
   email: string;
   password: string;
-  booked: Accommodation[];
+  booked: string[];
 }

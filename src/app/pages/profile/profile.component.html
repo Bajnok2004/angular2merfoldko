@@ -1,67 +1,105 @@
-<body>
-
-
 <div class="profile" [ngClass]="selectedTheme">
-  <h2>{{filterText}}'s Profile</h2><br><br><br><br>
+  <ng-container *ngIf="user$ | async as user; else loading">
+    <!-- User header -->
+    <h2>{{ user.name }}'s Profile</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
 
-  <div >
-    <p>Új felhasználónév: <input type="text" [(ngModel)]="filterText" placeholder="Add meg az új nevet" /></p>
+    <!-- Theme & font settings -->
+    <div class="profile-settings">
+      <p>Válassz háttértémát:</p>
+      <button (click)="selectedTheme='light'" [class.active]="selectedTheme==='light'">Világos</button>
+      <button (click)="selectedTheme='orange'" [class.active]="selectedTheme==='orange'">Narancs</button>
+      <button (click)="selectedTheme='blue'" [class.active]="selectedTheme==='blue'">Kék</button>
 
-    <br><p>Válassz háttértémát:</p>
+      <p [ngStyle]="{ 'font-size.px': fontSize }">Betű méret ({{ fontSize }}px):</p>
+      <input type="range" [(ngModel)]="fontSize" min="10" max="20" step="0.5" />
+    </div>
 
-    <!-- Háttértéma kiválasztása gombokkal -->
-    <button (click)="selectedTheme = 'light'" [ngClass]="{'active': selectedTheme === 'light'}">Világos</button>
-    <button (click)="selectedTheme = 'orange'" [ngClass]="{'active': selectedTheme === 'orange'}">Narancs</button>
-    <button (click)="selectedTheme = 'blue'" [ngClass]="{'active': selectedTheme === 'blue'}">Kék</button>
+    <!-- New booking form -->
+    <section class="add-booking">
+      <h3>Új foglalás</h3>
+      <form #bookingForm="ngForm" (ngSubmit)="createBooking(user, bookingForm)">
+        <div class="form-row">
+          <label for="accommodation">Szállás:</label>
+          <select id="accommodation" name="accommodationId" required [(ngModel)]="newBookingForm.accommodationId">
+            <option value="" disabled>-- Válassz --</option>
+            <option value="rome">Róma (Olaszország)</option>
+            <option value="paris">Párizs (Franciaország)</option>
+            <option value="london">London (Egyesült Királyság)</option>
+            <option value="new-york">New York (USA)</option>
+            <option value="tokyo">Tokió (Japán)</option>
+            <option value="budapest">Budapest (Magyarország)</option>
+            <option value="barcelona">Barcelona (Spanyolország)</option>
+            <option value="berlin">Berlin (Németország)</option>
+            <option value="madrid">Madrid (Spanyolország)</option>
+            <option value="sydney">Sydney (Ausztrália)</option>
+            <option *ngFor="let a of accommodationsList" [value]="a.id">
+              {{ a.name }} ({{ a.location }})
+            </option>
+          </select>
+        </div>
 
-    <p [ngStyle]="{'font-size.px': fontSize}">Betű méret({{fontSize}}px):</p>
-    <br><input type="range" [(ngModel)]="fontSize" min="10" max="20" step="0.5">
-  </div>
+        <div class="form-row">
+          <label for="guest-name">Név:</label>
+          <input id="guest-name" type="text" name="name" required [(ngModel)]="newBookingForm.name" />
+        </div>
 
-  <br><br><br><br><h3>Booked Hotels:</h3><br>
+        <div class="form-row">
+          <label for="guest-email">Email:</label>
+          <input id="guest-email" type="email" name="email" required [(ngModel)]="newBookingForm.email" />
+        </div>
 
-  <!-- Kedvenc szállások megjelenítése @if és @for direktívákkal -->
-  @if (user.booked && user.booked.length > 0) {
-    <ul>
-      @for (accommodation of user.booked; track accommodation.name) {
-        <li>
-          <br><br><br>
-          <img [src]="accommodation.image" alt="{{ accommodation.name }}" width="100" height="100">
-          <p [ngStyle]="{'font-size.px': fontSize}"><strong>Name:</strong> {{ accommodation.name }}</p>
-          <p [ngStyle]="{'font-size.px': fontSize}"><strong>Location:</strong> {{ accommodation.location }}</p>
-          <p [ngStyle]="{'font-size.px': fontSize}"><strong>Price:</strong> {{ accommodation.price | hufCurrency }}</p>
+        <div class="form-row">
+          <label for="checkin">Érkezés:</label>
+          <input id="checkin" type="date" name="checkIn" required [(ngModel)]="newBookingForm.checkIn" />
+        </div>
 
-          <p [ngStyle]="{'font-size.px': fontSize}">
-            <strong>Availability:</strong>
-            @if (accommodation.isAvailable) {
-              ✅ Available
-            } @else {
-              ❌ Not Available
-            }
-          </p>
+        <div class="form-row">
+          <label for="checkout">Távozás:</label>
+          <input id="checkout" type="date" name="checkOut" required [(ngModel)]="newBookingForm.checkOut" />
+        </div>
 
-          <h4>Facilities:</h4>
-          <table mat-table [dataSource]="accommodation.facilities" class="mat-elevation-z8">
-            <ng-container matColumnDef="name">
-              <th [ngStyle]="{'font-size.px': fontSize}" mat-header-cell *matHeaderCellDef> Facility </th>
-              <td [ngStyle]="{'font-size.px': fontSize}" mat-cell *matCellDef="let facility"> {{ facility.name }} </td>
-            </ng-container>
+        <div class="form-row">
+          <label for="guests">Vendégek:</label>
+          <input id="guests" type="number" name="guests" min="1" required [(ngModel)]="newBookingForm.guests" />
+        </div>
 
-            <ng-container matColumnDef="status">
-              <th [ngStyle]="{'font-size.px': fontSize}" mat-header-cell *matHeaderCellDef> Status </th>
-              <td [ngStyle]="{'font-size.px': fontSize}" mat-cell *matCellDef="let facility"> {{ facility.isAvailable ? 'Available' : 'Not Available' }} </td>
-            </ng-container>
+        <div class="form-row">
+          <label for="price">Ár (Ft):</label>
+          <input id="price" type="number" name="price" min="0" required [(ngModel)]="newBookingForm.price" />
+        </div>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-        </li>
-      }
-    </ul>
-  } @else {
-    <p>Nincsenek foglalt szállásaid még. 😢</p>
-  }
+        <div class="form-actions">
+          <button type="submit" [disabled]="bookingForm.invalid">Foglalás létrehozása</button>
+        </div>
+      </form>
+    </section>
+    <mat-divider></mat-divider>
 
+    <!-- Existing bookings list -->
+    <section class="bookings-list">
+      <h3>Foglalásaid:</h3>
+      <ng-container *ngIf="bookings$ | async as bookings; else noBookings">
+        <ul>
+          <li *ngFor="let b of bookings" class="booking-item">
+            <p><strong>Foglalás ID:</strong> {{ b.bookingId }}</p>
+            <p><strong>Szállás:</strong> {{ b.accommodation.name }}</p>
+            <p><strong>Érkezés:</strong> {{ b.checkIn | date:'yyyy-MM-dd' }}</p>
+            <p><strong>Távozás:</strong> {{ b.checkOut | date:'yyyy-MM-dd' }}</p>
+            <p><strong>Ár:</strong> {{ b.totalPrice | hufCurrency }}</p>
+            <button (click)="deleteBooking(b.bookingId)">Törlés</button>
+          </li>
+        </ul>
+      </ng-container>
+
+      <ng-template #noBookings>
+        <p>Még nincs foglalásod.</p>
+      </ng-template>
+    </section>
+  </ng-container>
+
+  <!-- Loading state -->
+  <ng-template #loading><p>Betöltés…</p></ng-template>
 </div>
 
 <footer>

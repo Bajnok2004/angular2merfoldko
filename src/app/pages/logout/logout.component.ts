@@ -25,6 +25,7 @@ export class LogoutComponent implements OnInit {
   }
 
   logout(): void {
+
     localStorage.setItem('isLoggedIn', 'false');
     localStorage.setItem('isAdmin', 'false');
     this.isAdmin = false;

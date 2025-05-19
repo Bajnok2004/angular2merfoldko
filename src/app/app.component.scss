@@ -1,4 +1,35 @@
-p {
-background-color: RED;
-font-size : 40px;
+.full-height {
+  height: 100vh;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+}
+
+/* A spacer tolja ki a nav-ot jobbra */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* Alapból rejtjük a mobil hamburger-t, és mutatjuk a desktop nav-ot */
+.mobile-menu-button {
+  display: none;
+}
+
+.desktop-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Mobil breakpoint: max-width 600px */
+@media (max-width: 600px) {
+  /* Lista gombjai eltűnnek a toolbarból */
+  .desktop-nav {
+    display: none;
+  }
+  /* Megjelenik a hamburger gomb */
+  .mobile-menu-button {
+    display: inline-flex;
+  }
 }

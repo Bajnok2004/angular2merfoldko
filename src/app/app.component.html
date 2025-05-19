@@ -1,2 +1,46 @@
-<app-menu></app-menu>
-<router-outlet />
+<mat-sidenav-container class="full-height">
+
+  <!-- OLDALSÁV (Sidenav) -->
+  <mat-sidenav #sidenav  class="mobile-sidenav">
+    <app-menu
+      [sidenav]="sidenav"
+      [isLoggedIn]="isLoggedIn"
+      (logoutEvent)="logout()">
+    </app-menu>
+  </mat-sidenav>
+
+  <!-- TARTALOM -->
+  <mat-sidenav-content>
+
+    <!-- FELSŐ MENÜ -->
+    <mat-toolbar color="primary" class="toolbar">
+      <!-- Mobil hamburger -->
+      <button mat-icon-button class="mobile-menu-button" (click)="onToggleSidenav(sidenav)">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+
+
+      <!-- Desktop navigáció -->
+      <nav class="desktop-nav">
+        <a mat-button routerLink="/">Főoldal</a>
+        <a mat-button routerLink="/foglalas">Foglalás</a>
+        <a mat-button routerLink="/szallasok">Szállások</a>
+
+        <ng-container *ngIf="!isLoggedIn">
+          <a mat-button routerLink="/bejelentkezes">Bejelentkezés</a>
+          <a mat-button routerLink="/regisztracio">Regisztráció</a>
+        </ng-container>
+
+        <ng-container *ngIf="isLoggedIn">
+          <a mat-button routerLink="/profil">Profil</a>
+          <a mat-button href="#" (click)="$event.preventDefault(); logout()">Kijelentkezés</a>
+        </ng-container>
+      </nav>
+    </mat-toolbar>
+
+    <!-- DINAMIKUS TARTALOM -->
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

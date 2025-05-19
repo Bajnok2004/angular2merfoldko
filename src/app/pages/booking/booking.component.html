@@ -1,58 +1,87 @@
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Foglalás - BajnokSzállás</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  
+<!-- src/app/booking/booking.component.html -->
+<main>
+  <section class="booking-details">
+    <div class="accommodation-info">
+      <img
+        [src]="accommodation.image"
+        [alt]="accommodation.name"
+      />
 
-  <main>
-    <section class="booking-details">
-      <div class="accommodation-info">
-        <img src="https://www.balaton-apartman.hu/files/accommodations/medium/102422770_594620637840053_7479628039524138219_o.jpg" alt="Balatoni Apartman" />
-        
-        <mat-accordion>
-          <mat-expansion-panel hideToggle>
-            <mat-expansion-panel-header>
-              <mat-panel-title>Balatoni Apartman</mat-panel-title>
-              <mat-panel-description>Kattints a további részletekért a szállásról.</mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>Balatonfüred • 2 fő • 18 000 Ft/éj</p>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ accommodation.name }}</mat-panel-title>
+            <mat-panel-description>
+              {{ accommodation.location }} • {{ accommodation.price | number }} Ft/éj
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <ul>
+            <li *ngFor="let f of accommodation.facilities">
+              {{ f.name }}: {{ f.isAvailable ? '✓' : '✗' }}
+            </li>
+          </ul>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
 
-      <div class="booking-form">
-        <h3>Foglalási űrlap</h3>
-        <form>
-          <label for="name">Név</label>
-          <input type="text" id="name" name="name" required />
+    <div class="booking-form">
+      <h3>Foglalási űrlap</h3>
+      <form #bookingForm="ngForm" (ngSubmit)="submitBooking(bookingForm)">
+        <label for="name">Név</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="bookingFormModel.name"
+          required
+        />
 
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="bookingFormModel.email"
+          required
+        />
 
-          <label for="checkin">Érkezés dátuma</label>
-          <input type="date" id="checkin" name="checkin" required />
+        <label for="checkin">Érkezés dátuma</label>
+        <input
+          type="date"
+          id="checkin"
+          name="checkin"
+          [(ngModel)]="bookingFormModel.checkIn"
+          required
+        />
 
-          <label for="checkout">Távozás dátuma</label>
-          <input type="date" id="checkout" name="checkout" required />
+        <label for="checkout">Távozás dátuma</label>
+        <input
+          type="date"
+          id="checkout"
+          name="checkout"
+          [(ngModel)]="bookingFormModel.checkOut"
+          required
+        />
 
-          <label for="guests">Vendégek száma</label>
-          <input type="number" id="guests" name="guests" min="1" max="10" value="2" required />
+        <label for="guests">Vendégek száma</label>
+        <input
+          type="number"
+          id="guests"
+          name="guests"
+          [(ngModel)]="bookingFormModel.guests"
+          [min]="1"
+          [max]="10"
+          required
+        />
 
-          <button type="submit">Foglalás elküldése</button>
-        </form>
-      </div>
-    </section>
-  </main>
-  
-  
-</body>
+        <button type="submit" [disabled]="bookingForm.invalid">
+          Foglalás elküldése
+        </button>
+      </form>
+    </div>
+  </section>
+</main>
 
-</html>
 <footer>
   <p>&copy; 2025 BajnokSzállás. Minden jog fenntartva.</p>
 </footer>
